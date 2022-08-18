@@ -16,7 +16,7 @@ public class EmployeeManagementApplication implements CommandLineRunner {
 	}
 	@Override
 	public void run(String... args) throws Exception {
-		System.out.println(this.passwordEncoder.encode("xyz"));
+		System.out.println(this.passwordEncoder.encode("Neeraj@786"));
 	}
 
 }

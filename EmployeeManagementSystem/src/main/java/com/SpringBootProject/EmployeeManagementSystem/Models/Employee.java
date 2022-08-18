@@ -18,7 +18,7 @@ public class Employee implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
-    @Column
+    @Column(nullable = false)
     String empFName;
     @Column
     String empLName;
@@ -34,9 +34,11 @@ public class Employee implements UserDetails {
     String email;
     @Column
     String password;
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    @JoinTable(name="EmployeeRoles", joinColumns = @JoinColumn(name="Employee_id", referencedColumnName = "id"),inverseJoinColumns = @JoinColumn(name="Role_id",referencedColumnName = "id"))
-    private Set<Role> roles= new HashSet<>();
+    @ManyToOne
+    private Organisation organisation;
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinTable(name="EmployeeRole", joinColumns = @JoinColumn(name="employeeid", referencedColumnName = "id"),inverseJoinColumns = @JoinColumn(name="roleid",referencedColumnName = "id"))
+    private Set<Role> roles=new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

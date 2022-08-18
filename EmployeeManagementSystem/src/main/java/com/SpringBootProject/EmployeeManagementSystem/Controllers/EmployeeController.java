@@ -23,7 +23,7 @@ public class EmployeeController {
     @PostMapping
     public ResponseEntity<String> saveEmployee(@RequestBody Employee employee)
     {
-        if(employee.getPassword().length()>6&&employee.getAddress().length()>0&&employee.getEmpFName().length()>0&&employee.getEmpLName().length()>0&&employee.getPassword().length()>6&&employee.getEmail().length()>0&&!employee.getPassword().contains("-")&&employee.getDomain().length()>0&&employee.getExp()>0&&employee.getSalary()>0) {
+        if(employee.getPassword().length()>6&&employee.getAddress().length()>0&&employee.getEmpFName().length()>0&&employee.getEmpLName().length()>0&&employee.getEmail().length()>0&&!employee.getPassword().contains("-")&&employee.getDomain().length()>0&&employee.getExp()>0&&employee.getSalary()>0) {
             Employee emp = employeeService.saveEmployee(employee);
             if (emp == null) {
                 return new ResponseEntity<>("Employee Already Exist", HttpStatus.BAD_REQUEST);
@@ -64,7 +64,7 @@ public class EmployeeController {
     public ResponseEntity<String> updateEmployee(@PathVariable("id")int id, @RequestBody Employee employee)
     {
         try {
-            if(employee.getPassword().length()>6&&employee.getAddress().length()>0&&employee.getEmpFName().length()>0&&employee.getEmpLName().length()>0&&employee.getPassword().length()>6&&employee.getEmail().length()>0&&!employee.getPassword().contains("-")&&employee.getDomain().length()>0&&employee.getExp()>0&&employee.getSalary()>0) {
+            if(employee.getPassword().length()>6&&employee.getAddress().length()>0&&employee.getEmpFName().length()>0&&employee.getEmpLName().length()>0&&employee.getEmail().length()>0&&!employee.getPassword().contains("-")&&employee.getDomain().length()>0&&employee.getExp()>0&&employee.getSalary()>0) {
                 employeeService.updateEmployee(employee, id);
                 return new ResponseEntity<String>("Employee's details updated Successfully", HttpStatus.OK);
             }

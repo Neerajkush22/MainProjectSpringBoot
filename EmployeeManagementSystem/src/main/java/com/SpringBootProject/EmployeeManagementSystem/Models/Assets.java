@@ -19,6 +19,9 @@ public class Assets {
     @Column
     String bills;
 
+    @ManyToOne
+    private Organisation organisation;
+
 
 
 }

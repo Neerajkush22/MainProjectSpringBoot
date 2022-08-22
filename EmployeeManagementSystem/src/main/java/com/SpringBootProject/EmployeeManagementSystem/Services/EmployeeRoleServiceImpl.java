@@ -27,8 +27,7 @@ public class EmployeeRoleServiceImpl implements EmployeeRoleService {
 
     @Override
     public EmployeeRole getRoleOfEmployeeById(int id) {
-        return employeeRoleRepo.findById(id).orElseThrow();
-    }
+        return employeeRoleRepo.findById(id).orElseThrow();    }
 
     @Override
     public EmployeeRole updateRoleOfEmployee(EmployeeRole roleOfEmployee, int id) {

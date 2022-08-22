@@ -6,8 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api/Employee")
@@ -21,77 +21,34 @@ public class EmployeeController {
 
 
     @PostMapping
-    public ResponseEntity<String> saveEmployee(@RequestBody Employee employee)
-    {
-        if(employee.getPassword().length()>6&&employee.getAddress().length()>0&&employee.getEmpFName().length()>0&&employee.getEmpLName().length()>0&&employee.getEmail().length()>0&&!employee.getPassword().contains("-")&&employee.getDomain().length()>0&&employee.getExp()>0&&employee.getSalary()>0) {
-            Employee emp = employeeService.saveEmployee(employee);
-            if (emp == null) {
-                return new ResponseEntity<>("Employee Already Exist", HttpStatus.BAD_REQUEST);
-            } else {
-                return new ResponseEntity<String>("Employee's details added Successfully", HttpStatus.CREATED);
-            }
-        }
-        else
-        {
-            return new ResponseEntity<>("Please enter valid data",HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<Employee> saveEmployee(@RequestBody @Valid Employee employee) {
+        return new ResponseEntity<Employee>(employeeService.saveEmployee(employee),HttpStatus.CREATED);
     }
+
+
+
     @GetMapping
-    public ResponseEntity< List<Employee>> getAllEmployee(){
-        List<Employee> employee =employeeService.getAllEmployee();
-        if(employee.size()>0){
-            return new ResponseEntity<>(employee,HttpStatus.OK);
-        }
-        else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public List<Employee>getAllEmployee(){
+       return employeeService.getAllEmployee();
     }
 
 
     @GetMapping("/login/{id}")
     public ResponseEntity<Employee>getEmployeeById(@PathVariable("id")int id)
     {
-       try {
-           return new ResponseEntity<Employee>(employeeService.getEmployeeById(id),HttpStatus.OK);
-       }
-       catch (NoSuchElementException e)
-       {
-           return new ResponseEntity<Employee>(HttpStatus.NOT_FOUND);
-       }
+        return new ResponseEntity<Employee>(employeeService.getEmployeeById(id),HttpStatus.OK);
     }
 
     @PutMapping("/updateById/{id}")
-    public ResponseEntity<String> updateEmployee(@PathVariable("id")int id, @RequestBody Employee employee)
+    public ResponseEntity<String> updateEmployee(@PathVariable("id")int id, @RequestBody @Valid Employee employee)
     {
-        try {
-            if(employee.getPassword().length()>6&&employee.getAddress().length()>0&&employee.getEmpFName().length()>0&&employee.getEmpLName().length()>0&&employee.getEmail().length()>0&&!employee.getPassword().contains("-")&&employee.getDomain().length()>0&&employee.getExp()>0&&employee.getSalary()>0) {
-                employeeService.updateEmployee(employee, id);
-                return new ResponseEntity<String>("Employee's details updated Successfully", HttpStatus.OK);
-            }
-            else
-            {
-                return new ResponseEntity<String>("Enter valid details",HttpStatus.BAD_REQUEST);
-            }
-        }
-        catch (NoSuchElementException e)
-        {
-
-            return new ResponseEntity<String>("Employee's details not found", HttpStatus.NOT_FOUND);
-        }
+        employeeService.updateEmployee(employee,id);
+        return new ResponseEntity<String>("Employee Updated Successful",HttpStatus.OK);
     }
 
     @DeleteMapping("/deleteById/{id}")
-    public ResponseEntity<String>deleteEmployee(@PathVariable("id")int id)
-    {
-        try {
-
-            employeeService.deleteEmployee(id);
-            return new ResponseEntity<String>("Employee has been deleted",HttpStatus.OK);
-        }
-        catch (NoSuchElementException e)
-        {
-
-            return new ResponseEntity<String>("Employee is not found",HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<String>deleteEmployee(@PathVariable("id")int id) {
+        employeeService.deleteEmployee(id);
+        return new ResponseEntity<String>("Employee deleted Successfully",HttpStatus.OK);
     }
 }

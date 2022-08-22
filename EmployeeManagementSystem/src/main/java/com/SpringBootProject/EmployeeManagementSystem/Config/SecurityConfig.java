@@ -23,7 +23,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET,"/api/Organisation").hasAnyAuthority("Admin","Employee","HR")
-                .antMatchers(HttpMethod.DELETE,"/api/Organisation").hasAuthority("Admin")
+                .antMatchers(HttpMethod.GET,"/api/Organisation/getById/{id}").hasAnyAuthority("Admin","Employee","HR")
+                .antMatchers(HttpMethod.DELETE,"/api/Organisation/deleteById/{id}").hasAuthority("Admin")
                 .antMatchers(HttpMethod.POST,"/api/Organisation").hasAuthority("Admin")
                 .antMatchers(HttpMethod.PUT,"/api/Organisation/updateById/**").hasAuthority("Admin")
 
@@ -36,16 +37,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET,"/api/Employee").hasAnyAuthority("Admin","HR")
                 .antMatchers(HttpMethod.POST,"/api/Employee").hasAnyAuthority("Admin","HR")
                 .antMatchers(HttpMethod.PUT,"/api/Employee/updateById/**").hasAnyAuthority("Admin","HR")
-                .antMatchers(HttpMethod.DELETE,"/api/Employee/deleteById/**").hasAnyAuthority("Admin","HR")
+                .antMatchers(HttpMethod.DELETE,"/api/Employee/deleteById/**").hasAnyAuthority("Admin")
                 .antMatchers(HttpMethod.GET, "/api/Employee/login/{id}").access("@userSecurity.hasUserId(authentication,#id)")
 
 
                 .antMatchers(HttpMethod.GET,"/Assets").hasAnyAuthority("Admin","HR","Employee")
-                .antMatchers(HttpMethod.PUT,"/api/Assets/updateById/**").hasAnyAuthority("Admin","HR")
+                .antMatchers(HttpMethod.PUT,"/api/Assets/updateById/{id}").hasAnyAuthority("Admin","HR")
                 .antMatchers(HttpMethod.POST,"/api/Assets").hasAnyAuthority("Admin","HR")
-                .antMatchers(HttpMethod.GET,"/Assets/getById/**").hasAnyAuthority("Admin","HR","Employee")
-                .antMatchers(HttpMethod.PUT,"/api/Assets/updateById/**").hasAnyAuthority("Admin","HR")
-                .antMatchers(HttpMethod.DELETE,"/Assets/deleteById/**").hasAuthority("Admin")
+                .antMatchers(HttpMethod.GET,"/api/Assets/getById/{id}").hasAnyAuthority("Admin","HR","Employee")
+                .antMatchers(HttpMethod.PUT,"/api/Assets/updateById/{id}").hasAnyAuthority("Admin","HR")
+                .antMatchers(HttpMethod.DELETE,"/api/Assets/deleteById/{id}").hasAuthority("Admin")
                 .and().httpBasic();
 
         http.csrf().disable();

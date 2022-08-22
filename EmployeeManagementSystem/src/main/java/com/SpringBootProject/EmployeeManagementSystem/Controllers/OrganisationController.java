@@ -23,8 +23,17 @@ public class OrganisationController {
 
     @PostMapping
     public ResponseEntity<String> saveOrganisation(@RequestBody Organisation organisation) {
-        organisationService.saveOrganisation(organisation);
-        return new ResponseEntity<String>("Organisation is added successful", HttpStatus.CREATED);
+        if (organisation.getOrgAdd().length() > 0&&organisation.getOrgName().length()>0) {
+            Organisation org = organisationService.saveOrganisation(organisation);
+            if (org == null) {
+                return new ResponseEntity<>("Organisation Already Exist", HttpStatus.BAD_REQUEST);
+            } else {
+                return new ResponseEntity<String>("Organisation details added Successfully", HttpStatus.CREATED);
+            }
+        }
+        else {
+            return new ResponseEntity<>("Enter valid email", HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping
@@ -36,16 +45,42 @@ public class OrganisationController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+    @GetMapping("/getById/{id}")
+    public ResponseEntity<Organisation>getOrganisationById(@PathVariable("id")int id)
+    {
+        try {
+            return new ResponseEntity<Organisation>(organisationService.getOrganisationById(id),HttpStatus.OK);
+        }
+        catch (NoSuchElementException e)
+        {
+            return new ResponseEntity<Organisation>(HttpStatus.NOT_FOUND);
+        }
+    }
 
     @PutMapping("/updateById/{id}")
     public ResponseEntity<String> updateOrganisation(@PathVariable("id") int id, @RequestBody Organisation organisation) {
-        try {
-
+        try
+        {
             organisationService.updateOrganisation(organisation, id);
             return new ResponseEntity<String>("Organisation's details updated Successfully", HttpStatus.OK);
-        } catch (NoSuchElementException e) {
-
+        }
+        catch (NoSuchElementException e)
+        {
             return new ResponseEntity<String>("Organisation's details not found", HttpStatus.NOT_FOUND);
+        }
+    }
+    @DeleteMapping("/deleteById/{id}")
+    public ResponseEntity<String>deleteOrganisation(@PathVariable("id")int id)
+    {
+        try {
+
+            organisationService.deleteOrganisation(id);
+            return new ResponseEntity<String>("Organisation has been deleted",HttpStatus.OK);
+        }
+        catch (NoSuchElementException e)
+        {
+
+            return new ResponseEntity<String>("Organisation is not found",HttpStatus.NOT_FOUND);
         }
     }
 }

@@ -24,7 +24,11 @@ public class OrganisationServiceImp implements OrganisationService{
     {
         return organisationRepo.findAll();
     }
-
+    @Override
+    public Organisation getOrganisationById(int id)
+    {
+        return organisationRepo.findById(id).orElseThrow();
+    }
     @Override
     public Organisation updateOrganisation(Organisation organisation,int id)
     {
@@ -33,6 +37,12 @@ public class OrganisationServiceImp implements OrganisationService{
         existingOrganisation.setOrgAdd(organisation.getOrgAdd());
         organisationRepo.save(existingOrganisation);
         return existingOrganisation;
+    }
+    @Override
+    public void deleteOrganisation(int id)
+    {
+        organisationRepo.findById(id).orElseThrow();
+        organisationRepo.deleteById(id);
     }
 
 }

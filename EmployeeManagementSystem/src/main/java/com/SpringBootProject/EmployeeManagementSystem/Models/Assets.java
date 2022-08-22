@@ -19,7 +19,7 @@ public class Assets {
     @Column
     String bills;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE,fetch = FetchType.EAGER)
     private Organisation organisation;
 
 

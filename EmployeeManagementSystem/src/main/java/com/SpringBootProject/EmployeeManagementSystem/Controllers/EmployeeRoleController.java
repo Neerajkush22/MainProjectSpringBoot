@@ -23,7 +23,7 @@ public class EmployeeRoleController {
     public ResponseEntity<String> saveRoleOfEmployee(@RequestBody EmployeeRole roleOfEmployee)
     {
         service.saveRoleOfEmployee(roleOfEmployee);
-        return new ResponseEntity<String>("Rol Created successfully", HttpStatus.CREATED);
+        return new ResponseEntity<String>("Role Created successfully", HttpStatus.CREATED);
     }
 
     @GetMapping

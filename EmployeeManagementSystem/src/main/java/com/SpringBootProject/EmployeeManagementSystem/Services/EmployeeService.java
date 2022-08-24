@@ -6,10 +6,10 @@ import org.apache.catalina.LifecycleState;
 import java.util.List;
 
 public interface EmployeeService {
-    Employee saveEmployee(Employee employee);
+    public boolean saveEmployee(Employee employee);
     List<Employee>getAllEmployee();
     Employee getEmployeeById(int id);
     Employee updateEmployee(Employee employee,int id);
-    void deleteEmployee(int id);
+    public boolean deleteEmployee(int id);
 
 }

@@ -21,8 +21,13 @@ public class EmployeeController {
 
 
     @PostMapping
-    public ResponseEntity<Employee> saveEmployee(@RequestBody @Valid Employee employee) {
-        return new ResponseEntity<Employee>(employeeService.saveEmployee(employee),HttpStatus.CREATED);
+    public ResponseEntity<String> saveEmployee(@RequestBody @Valid Employee employee) {
+
+        if(employeeService.saveEmployee(employee))
+            return new ResponseEntity<>("Created", HttpStatus.CREATED);
+        else
+            return new ResponseEntity<>("EMAIL ID ALREADY EXISTS",HttpStatus.BAD_REQUEST);
+
     }
 
 
@@ -48,7 +53,9 @@ public class EmployeeController {
 
     @DeleteMapping("/deleteById/{id}")
     public ResponseEntity<String>deleteEmployee(@PathVariable("id")int id) {
-        employeeService.deleteEmployee(id);
-        return new ResponseEntity<String>("Employee deleted Successfully",HttpStatus.OK);
+        if(employeeService.deleteEmployee(id))
+            return new ResponseEntity<>("Deleted", HttpStatus.OK);
+        else
+            return new ResponseEntity<>("THIS ID NOT IN RECORD",HttpStatus.BAD_REQUEST);
     }
 }

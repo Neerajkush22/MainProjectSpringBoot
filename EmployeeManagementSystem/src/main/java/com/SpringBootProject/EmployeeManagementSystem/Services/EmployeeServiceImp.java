@@ -20,22 +20,39 @@ public class EmployeeServiceImp implements EmployeeService {
         this.employeeRepo = employeeRepo;
     }
     @Override
-    public Employee saveEmployee(Employee employee) {
-        String encodepass=this.passwordEncoder.encode(employee.getPassword());
-        employee.setPassword(encodepass);
-        return employeeRepo.save(employee);
+    public boolean saveEmployee(Employee employee) {
+        List<Employee> emp = employeeRepo.findAll();
+        boolean isFound = false;
+        for (Employee e : emp) {
+            if (e.getEmail().equals(employee.getEmail())) {
+                isFound = true;
+                break;
+            }
+        }
+
+        if (isFound) {
+            return false;
+        } else {
+            employee.setPassword(passwordEncoder.encode(employee.getPassword()));
+            employeeRepo.save(employee);
+            return true;
+        }
     }
 
     @Override
     public List<Employee> getAllEmployee()
     {
-        return employeeRepo.findAll();
+        List<Employee>emp= employeeRepo.findAll();
+        for (Employee e:emp)
+        {
+            e.setPassword("THIS INFORMATION CANNOT BE LEAKED");
+        }
+        return emp;
     }
     @Override
     public Employee getEmployeeById(int id)
     {
-        Employee employee= employeeRepo.findById(id).orElseThrow(()-> new com.SpringBootProject.EmployeeManagementSystem.Exception.ResourceNotFoundException("Employee not found with id :" + id));
-        employee.setPassword("Password is hidden");
+        Employee employee= employeeRepo.findById(id).orElseThrow();
         return employee;
     }
     @Override
@@ -55,10 +72,18 @@ public class EmployeeServiceImp implements EmployeeService {
         return existingDetail;
     }
     @Override
-    public void deleteEmployee(int id)
+    public boolean deleteEmployee(int id)
     {
-        employeeRepo.findById(id).orElseThrow(()-> new com.SpringBootProject.EmployeeManagementSystem.Exception.ResourceNotFoundException("Employee not found with id :" + id));
-        employeeRepo.deleteById(id);
-    }
+        try
+        {
+            Employee emp=employeeRepo.findById(id).orElseThrow();
+            employeeRepo.deleteById(emp.getId());
+            return true;
+        }
+        catch (NullPointerException e)
+        {
+            return false;
+        }
+}
 
 }

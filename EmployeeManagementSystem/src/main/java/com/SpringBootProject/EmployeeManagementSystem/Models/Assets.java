@@ -14,17 +14,16 @@ import javax.persistence.*;
 @Table(name = "assestDetials")
 public class Assets {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
-    @Column
-    int orgId;
     @Column
     String furniture;
     @Column
     String gadgets;
     @Column
     String bills;
-
+    @Column(nullable = true)
+    private int organizationid;
 
 
 

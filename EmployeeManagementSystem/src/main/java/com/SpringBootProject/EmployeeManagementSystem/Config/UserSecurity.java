@@ -13,9 +13,8 @@ public class UserSecurity {
 
     public boolean hasUserId(Authentication authentication, Integer userId) {
 
-        int userID=userRepo.findByEmail(authentication.getName()).get().getId();
-		System.out.println(userId+"  "+userID);
-        if(userID==userId)
+        int EmpuserID=userRepo.findByEmail(authentication.getName()).get().getId();
+        if(EmpuserID==userId)
             return true;
 
         return false;

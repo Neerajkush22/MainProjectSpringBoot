@@ -1,5 +1,4 @@
 package com.SpringBootProject.EmployeeManagementSystem.Models;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
@@ -41,6 +40,8 @@ public class Employee implements UserDetails {
     @Column(nullable = false)
     @Min(value = 10000,message = "salary Shoulde be minimum 10000")
     long salary;
+    @Column(nullable = true)
+    private int organizationid;
     @Column(nullable = false)
     @Min(value = 0,message = "Experience Should be minimum 0")
     int exp;
@@ -53,14 +54,12 @@ public class Employee implements UserDetails {
     @Email(message = "Email is not valid", regexp = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")
     String email;
     @Column(nullable = false)
-    @Pattern(message="password must contain atleast 1 uppercase, 1 lowercase, 1 special character and 1 digit with atleast 8 characters",
-            regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$")
+    @Pattern(message="password must contain atleast 1 uppercase, 1 lowercase, 1 special character and 1 digit with atleast 8 characters", regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$")
     String password;
 
     @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinTable(name="EmployeeRole", joinColumns = @JoinColumn(name="employeeid", referencedColumnName = "id"),inverseJoinColumns = @JoinColumn(name="roleid",referencedColumnName = "id"))
     private Set<Role> roles=new HashSet<>();
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -97,4 +96,7 @@ public class Employee implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
+
 }

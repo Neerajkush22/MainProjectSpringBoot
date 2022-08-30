@@ -16,13 +16,18 @@ import java.util.Set;
 @Table(name = "organisationDetails")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
 public class Organisation {
+    public Organisation()
+    {}
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
     String orgName;
     String orgAdd;
-    @OneToMany(cascade = CascadeType.ALL,orphanRemoval=true ,fetch = FetchType.EAGER)
-    private Set<Employee> Employee=new HashSet<>();
-    @OneToMany(cascade = CascadeType.ALL,orphanRemoval=true ,fetch = FetchType.EAGER)
-    private Set<Assets> Assets =new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.EAGER)
+    @JoinColumn(name = "organizationid",referencedColumnName = "id")
+    private Set<Assets> assets = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.EAGER)
+    @JoinColumn(name = "organizationid",referencedColumnName = "id")
+    private Set<Employee> employees = new HashSet<>();
 }

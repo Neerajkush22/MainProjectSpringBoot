@@ -20,23 +20,10 @@ public class EmployeeServiceImp implements EmployeeService {
         this.employeeRepo = employeeRepo;
     }
     @Override
-    public boolean saveEmployee(Employee employee) {
-        List<Employee> emp = employeeRepo.findAll();
-        boolean isFound = false;
-        for (Employee e : emp) {
-            if (e.getEmail().equals(employee.getEmail())) {
-                isFound = true;
-                break;
-            }
-        }
-
-        if (isFound) {
-            return false;
-        } else {
-            employee.setPassword(passwordEncoder.encode(employee.getPassword()));
-            employeeRepo.save(employee);
-            return true;
-        }
+    public Employee saveEmployee(Employee employee) {
+        String encodepass=this.passwordEncoder.encode(employee.getPassword());
+        employee.setPassword(encodepass);
+        return employeeRepo.save(employee);
     }
 
     @Override
@@ -52,7 +39,7 @@ public class EmployeeServiceImp implements EmployeeService {
     @Override
     public Employee getEmployeeById(int id)
     {
-        Employee employee= employeeRepo.findById(id).orElseThrow();
+        Employee employee= employeeRepo.findById(id).orElseThrow(()-> new com.SpringBootProject.EmployeeManagementSystem.Exception.ResourceNotFoundException("Employee not found by id"+id));
         return employee;
     }
     @Override

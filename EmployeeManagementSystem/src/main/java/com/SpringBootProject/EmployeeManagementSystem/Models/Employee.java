@@ -38,7 +38,7 @@ public class Employee implements UserDetails {
     @Pattern(message="Only characters are allowed", regexp = "^[a-zA-Z ]+$")
     String address;
     @Column(nullable = false)
-    @Min(value = 10000,message = "salary Shoulde be minimum 10000")
+    @Min(value = 10000,message = "salary Should be minimum 10000")
     long salary;
     @Column(nullable = true)
     private int organizationid;
@@ -57,7 +57,7 @@ public class Employee implements UserDetails {
     @Pattern(message="password must contain atleast 1 uppercase, 1 lowercase, 1 special character and 1 digit with atleast 8 characters", regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$")
     String password;
 
-    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="EmployeeRole", joinColumns = @JoinColumn(name="employeeid", referencedColumnName = "id"),inverseJoinColumns = @JoinColumn(name="roleid",referencedColumnName = "id"))
     private Set<Role> roles=new HashSet<>();
 

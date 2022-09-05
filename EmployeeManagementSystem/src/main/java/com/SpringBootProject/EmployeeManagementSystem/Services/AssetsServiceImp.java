@@ -28,12 +28,12 @@ public class AssetsServiceImp implements AssetsService {
     @Override
     public Assets getAssetById(int id)
     {
-        return assetsRepo.findById(id).orElseThrow();
+        return assetsRepo.findById(id).orElseThrow(()-> new com.SpringBootProject.EmployeeManagementSystem.Exception.ResourceNotFoundException("assets not found with id :" + id));
     }
     @Override
     public Assets updateAssets(Assets assets, int id)
     {
-        Assets existingAssets = assetsRepo.findById(id).orElseThrow();
+        Assets existingAssets = assetsRepo.findById(id).orElseThrow(()-> new com.SpringBootProject.EmployeeManagementSystem.Exception.ResourceNotFoundException("assets not found with id :" + id));
         existingAssets.setBills(assets.getBills());
         existingAssets.setFurniture(assets.getFurniture());
         existingAssets.setGadgets(assets.getGadgets());
@@ -43,7 +43,7 @@ public class AssetsServiceImp implements AssetsService {
     @Override
     public void deleteAssets(int id)
     {
-        assetsRepo.findById(id).orElseThrow();
+        assetsRepo.findById(id).orElseThrow(()-> new com.SpringBootProject.EmployeeManagementSystem.Exception.ResourceNotFoundException("assets not found with id :" + id));
         assetsRepo.deleteById(id);
     }
 }

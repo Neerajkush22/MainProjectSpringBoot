@@ -1,6 +1,4 @@
 package com.SpringBootProject.EmployeeManagementSystem.Services;
-
-import com.SpringBootProject.EmployeeManagementSystem.Models.Employee;
 import com.SpringBootProject.EmployeeManagementSystem.Models.Organisation;
 
 import java.util.List;

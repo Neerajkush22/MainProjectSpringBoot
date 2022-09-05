@@ -11,17 +11,15 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
+import java.util.*;
 @Data
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
 @Table(name = "employeeDetials")
 public class Employee implements UserDetails {
+    public Employee()
+    {
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
@@ -57,15 +55,16 @@ public class Employee implements UserDetails {
     @Pattern(message="password must contain atleast 1 uppercase, 1 lowercase, 1 special character and 1 digit with atleast 8 characters", regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$")
     String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name="EmployeeRole", joinColumns = @JoinColumn(name="employeeid", referencedColumnName = "id"),inverseJoinColumns = @JoinColumn(name="roleid",referencedColumnName = "id"))
-    private Set<Role> roles=new HashSet<>();
+    @NotEmpty(message = "Role Can not be empty")
+    @Pattern(message = "Enter Correct Role..!!!",regexp = "^Employee$|^Admin$|^HR$")
+    private String role;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorities=this.roles.stream().map((role)->new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
-        return  authorities;
+        return Collections.singletonList(new SimpleGrantedAuthority(role));
     }
+
 
     @Override
     public String getPassword() {

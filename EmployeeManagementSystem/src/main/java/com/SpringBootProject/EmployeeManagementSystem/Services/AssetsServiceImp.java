@@ -37,6 +37,7 @@ public class AssetsServiceImp implements AssetsService {
         existingAssets.setBills(assets.getBills());
         existingAssets.setFurniture(assets.getFurniture());
         existingAssets.setGadgets(assets.getGadgets());
+        existingAssets.setOrganizationid(assets.getOrganizationid());
         assetsRepo.save(existingAssets);
         return existingAssets;
     }

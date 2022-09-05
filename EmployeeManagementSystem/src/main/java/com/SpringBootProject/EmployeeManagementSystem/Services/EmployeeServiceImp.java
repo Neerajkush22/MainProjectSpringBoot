@@ -55,6 +55,8 @@ public class EmployeeServiceImp implements EmployeeService {
         existingDetail.setEmpFName(employee.getEmpFName());
         existingDetail.setEmpLName(employee.getEmpLName());
         existingDetail.setSalary(employee.getSalary());
+        existingDetail.setOrganizationid(employee.getOrganizationid());
+        existingDetail.setRole(employee.getRole());
         employeeRepo.save(existingDetail);
         return existingDetail;
     }

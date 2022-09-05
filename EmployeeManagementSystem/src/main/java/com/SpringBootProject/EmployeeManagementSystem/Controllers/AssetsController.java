@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -18,7 +20,7 @@ public class AssetsController {
         this.assetsService=assetsService;
     }
     @PostMapping
-    public ResponseEntity<String> saveAssets(@RequestBody Assets assets)
+    public ResponseEntity<String> saveAssets(@RequestBody @Valid Assets assets)
     {
         assetsService.saveAssets(assets);
         return new ResponseEntity<String>("Asset Added Successfully",HttpStatus.CREATED);
@@ -39,7 +41,7 @@ public class AssetsController {
 
 
     @PutMapping("/updateById/{id}")
-    public ResponseEntity<String> updateAssets(@PathVariable("id")int id, @RequestBody Assets assets)
+    public ResponseEntity<String> updateAssets(@PathVariable("id")int id, @RequestBody @Valid Assets assets)
     {
         assetsService.updateAssets(assets,id);
         return new ResponseEntity<String>("Asset Updated Successfully",HttpStatus.OK);

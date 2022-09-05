@@ -38,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST,"/api/Employee").hasAnyAuthority("Admin","HR")
                 .antMatchers(HttpMethod.PUT,"/api/Employee/updateById/**").hasAnyAuthority("Admin","HR")
                 .antMatchers(HttpMethod.DELETE,"/api/Employee/deleteById/**").hasAnyAuthority("Admin")
-                .antMatchers(HttpMethod.GET, "/api/Employee/login/{id}").access("@userSecurity.hasUserId(authentication,#id)")
+                .antMatchers(HttpMethod.GET, "/api/Employee/login/{id}").hasAnyAuthority("Employee")
 
 
                 .antMatchers(HttpMethod.GET,"/Assets").hasAnyAuthority("Admin","HR","Employee")

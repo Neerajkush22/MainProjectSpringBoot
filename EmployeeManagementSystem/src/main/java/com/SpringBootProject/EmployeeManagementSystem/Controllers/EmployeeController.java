@@ -21,8 +21,8 @@ public class EmployeeController {
 
 
     @PostMapping
-    public ResponseEntity<String> saveEmployee(@RequestBody @Valid Employee employee) {
-        return new ResponseEntity<String>("Employee Added Successfully",HttpStatus.CREATED);
+    public ResponseEntity<Employee> saveEmployee(@RequestBody @Valid Employee employee) {
+        return new ResponseEntity<Employee>(employeeService.saveEmployee(employee),HttpStatus.CREATED);
     }
 
 
